@@ -1,13 +1,13 @@
 ﻿namespace Anairam {
     using System.Configuration;
     using System.Xml;
+    using Anairam.Environment;
 
-    public class EnvironmentConfigurationSection : IConfigurationSectionHandler {
-        public string Default { get; set; }
+    public class EnvironmentConfigurationSection : ExternalConfigurationSection {
+        protected override void LoadValues(XmlNode section) {
+            var environment = section.SelectSingleNode(Detector.Current);
 
-        public object Create(object parent, object configContext, XmlNode section) {
-            this.Default = section.Attributes["default"].Value;
-            return this;
+            base.LoadValues(environment);
         }
     }
 }
